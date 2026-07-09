@@ -5,36 +5,11 @@ description: "Learn the Linux filesystem as an operating-system subsystem: paths
 contentType: Conceptual
 lastReviewed: 2026-07-09
 ---
-
-# Understand the Linux filesystem
+## Understand the Linux filesystem
 
 The Linux filesystem is the layer that turns names like `/etc/ssh/sshd_config` into kernel objects, permissions checks, cached pages, device I/O, and sometimes synthetic data that does not live on a disk at all.
 
 Use this section as the filesystem chapter of a Linux operating-system index. It explains what exists, how the pieces fit, and what order to learn them in.
-
-## On this page
-
-- [The model](#the-model)
-- [The learning order](#the-learning-order)
-- [The single tree](#the-single-tree)
-- [Paths and lookup](#paths-and-lookup)
-- [VFS objects](#vfs-objects)
-- [File types](#file-types)
-- [The directory hierarchy](#the-directory-hierarchy)
-- [Metadata](#metadata)
-- [Permissions](#permissions)
-- [Links](#links)
-- [Mounts](#mounts)
-- [Virtual filesystems](#virtual-filesystems)
-- [Local filesystems](#local-filesystems)
-- [Network and shared filesystems](#network-and-shared-filesystems)
-- [Overlay filesystems](#overlay-filesystems)
-- [The storage path](#the-storage-path)
-- [What common operations do](#what-common-operations-do)
-- [Durability](#durability)
-- [Common errors](#common-errors)
-- [Inspection map](#inspection-map)
-- [Source map](#source-map)
 
 ## The model
 
@@ -42,7 +17,7 @@ Linux presents files as one tree rooted at `/`. That tree is not one disk. It is
 
 At runtime, a pathname crosses several layers:
 
-```text
+```md
 process
   -> file descriptor table
   -> system call
