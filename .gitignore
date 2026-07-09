@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# generated content
+.source
+
 # production
 /build
 
