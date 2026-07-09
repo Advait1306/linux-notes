@@ -1,12 +1,13 @@
+import { getMDXComponents } from "@/components/mdx";
 import { source } from "@/lib/source";
+import { Globe } from "lucide-react";
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import {
   DocsBody,
   DocsDescription,
   DocsPage,
   DocsTitle,
 } from "fumadocs-ui/layouts/docs/page";
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 
 export default function Home() {
   const page = source.getPage([]) ?? source.getPages()[0];
@@ -18,11 +19,21 @@ export default function Home() {
       links={[
         {
           type: "icon",
-          url: "https://x.com/lifeofadvait",
           text: "X",
-          label: "X / Twitter",
+          label: "X profile",
+          url: "https://x.com/lifeofadvait",
           external: true,
-          icon: <XLogo />,
+          on: "menu",
+          icon: <XIcon />,
+        },
+        {
+          type: "icon",
+          text: "Website",
+          label: "Personal website",
+          url: "https://advaitb.com",
+          external: true,
+          on: "menu",
+          icon: <Globe />,
         },
       ]}
     >
@@ -31,20 +42,24 @@ export default function Home() {
   );
 }
 
-function XLogo() {
+function XIcon() {
   return (
-    <svg
-      role="img"
-      viewBox="0 0 1200 1227"
-      fill="currentColor"
-      className="scale-75"
-    >
-      <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" />
-    </svg>
+    <span
+      aria-hidden="true"
+      className="block size-3.5 bg-current"
+      style={{
+        mask: "url(/x-logo.svg) center / contain no-repeat",
+        WebkitMask: "url(/x-logo.svg) center / contain no-repeat",
+      }}
+    />
   );
 }
 
-function DocPage({ page }: { page: NonNullable<ReturnType<typeof source.getPage>> }) {
+function DocPage({
+  page,
+}: {
+  page: NonNullable<ReturnType<typeof source.getPage>>;
+}) {
   const MDX = page.data.body;
 
   return (
@@ -52,7 +67,7 @@ function DocPage({ page }: { page: NonNullable<ReturnType<typeof source.getPage>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <MDX components={defaultMdxComponents} />
+        <MDX components={getMDXComponents()} />
       </DocsBody>
     </DocsPage>
   );
