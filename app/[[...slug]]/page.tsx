@@ -1,6 +1,8 @@
 import { getMDXComponents } from "@/components/mdx";
 import { source } from "@/lib/source";
 import { Globe } from "lucide-react";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import {
   DocsBody,
@@ -9,8 +11,35 @@ import {
   DocsTitle,
 } from "fumadocs-ui/layouts/docs/page";
 
-export default function Home() {
-  const page = source.getPage([]) ?? source.getPages()[0];
+type PageProps = {
+  params: Promise<{
+    slug?: string[];
+  }>;
+};
+
+type DocPageData = NonNullable<ReturnType<typeof source.getPage>>;
+
+export function generateStaticParams() {
+  return [{ slug: [] }, ...source.generateParams()];
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const page = getPage((await params).slug);
+
+  if (!page) return {};
+
+  return {
+    title: page.data.title,
+    description: page.data.description,
+  };
+}
+
+export default async function Page({ params }: PageProps) {
+  const page = getPage((await params).slug);
+
+  if (!page) notFound();
 
   return (
     <DocsLayout
@@ -37,9 +66,17 @@ export default function Home() {
         },
       ]}
     >
-      {page ? <DocPage page={page} /> : <EmptyDocsPage />}
+      <DocPage page={page} />
     </DocsLayout>
   );
+}
+
+function getPage(slug?: string[]) {
+  if (!slug || slug.length === 0) {
+    return source.getPage([]) ?? source.getPages()[0];
+  }
+
+  return source.getPage(slug);
 }
 
 function XIcon() {
@@ -55,11 +92,7 @@ function XIcon() {
   );
 }
 
-function DocPage({
-  page,
-}: {
-  page: NonNullable<ReturnType<typeof source.getPage>>;
-}) {
+function DocPage({ page }: { page: DocPageData }) {
   const MDX = page.data.body;
 
   return (
@@ -69,16 +102,6 @@ function DocPage({
       <DocsBody>
         <MDX components={getMDXComponents()} />
       </DocsBody>
-    </DocsPage>
-  );
-}
-
-function EmptyDocsPage() {
-  return (
-    <DocsPage>
-      <DocsTitle>Linux Notes</DocsTitle>
-      <DocsDescription>Add docs under content/docs.</DocsDescription>
-      <DocsBody />
     </DocsPage>
   );
 }

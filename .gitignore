@@ -20,6 +20,12 @@
 # generated content
 .source
 
+# Obsidian local vault state
+content/docs/.obsidian/*
+!content/docs/.obsidian/templates.json
+content/docs/.trash/
+content/docs/Untitled*.md
+
 # production
 /build
 
