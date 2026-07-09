@@ -41,27 +41,6 @@ The most important distinction is this:
 
 If you understand those seven objects, the rest of the Linux filesystem becomes much easier to place.
 
-## The learning order
-
-Learn the filesystem from the user-visible surface down into the kernel. Do not start with ext4 internals.
-
-| Order | Topic | What you should be able to explain |
-| --- | --- | --- |
-| 1 | Paths | Absolute paths, relative paths, `.` and `..`, trailing slashes, symlink traversal |
-| 2 | File types | Regular files, directories, symlinks, devices, FIFOs, sockets |
-| 3 | Metadata | Inode number, owner, group, mode, timestamps, size, allocated blocks |
-| 4 | Permissions | Read, write, execute, directory search, setuid, setgid, sticky bit, `umask` |
-| 5 | Links | Why hard links share an inode and symlinks store another path |
-| 6 | Hierarchy | Why `/etc`, `/usr`, `/var`, `/run`, `/proc`, `/sys`, and `/dev` exist |
-| 7 | Mounts | How many filesystems become one tree |
-| 8 | Filesystem types | ext4, XFS, Btrfs, tmpfs, procfs, sysfs, overlayfs, NFS, SMB |
-| 9 | VFS | How Linux gives all filesystem types one common API |
-| 10 | Storage path | Page cache, writeback, block devices, partitions, LVM, encryption, RAID |
-| 11 | Durability | `fsync`, rename, journaling, copy-on-write, crash consistency |
-| 12 | Namespaces | Why containers can see a different filesystem tree |
-
-You are done with the first pass when you can explain what happens during `open("/var/log/syslog", O_RDONLY)`.
-
 ## The single tree
 
 Linux processes see a root directory. For most processes, that root is `/`. For a process in a container, chroot, or custom mount namespace, `/` may be a different root.

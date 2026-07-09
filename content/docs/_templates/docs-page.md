@@ -6,5 +6,4 @@ contentType: Conceptual
 lastReviewed: {{date:YYYY-MM-DD}}
 ---
 
-# {{title}}
 
