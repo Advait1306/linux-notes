@@ -129,10 +129,54 @@
   html {
     @apply font-sans;
   }
+
+  .fd-search-text-flash {
+    color: var(--fd-search-text-color);
+    animation: search-text-flash 1.8s ease-in-out 1 forwards;
+    will-change: opacity;
+  }
 }
 
 @layer utilities {
   .shiki:not(.not-fumadocs-codeblock *) {
     @apply shadow-none;
+  }
+}
+
+@keyframes search-text-flash {
+  0% {
+    opacity: 1;
+  }
+
+  16%,
+  48%,
+  80% {
+    opacity: 0.18;
+  }
+
+  32%,
+  64% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-search-text-flash {
+    animation: search-text-flash-reduced 1.2s ease-out 1 forwards;
+  }
+}
+
+@keyframes search-text-flash-reduced {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  20% {
+    opacity: 0.55;
   }
 }
